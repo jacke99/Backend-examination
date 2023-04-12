@@ -26,7 +26,7 @@ router.post("/create/account/", async (req, res) => {
   if (result.matchedCount != 0) {
     res.status(400).send("Username is already taken");
   } else {
-    res.status(200).send("Account created");
+    res.status(201).send("Account created");
   }
 });
 
@@ -74,7 +74,7 @@ router.put("/channel/", jwtFilter.authorize, async (req, res) => {
       { upsert: true }
     );
     await fetch("http://127.0.0.1:4000/channel/");
-    res.send(newChannel);
+    res.status(201).send(newChannel);
   }
 });
 
@@ -127,7 +127,7 @@ router.post("/channel/:id", jwtFilter.authorize, async (req, res) => {
     res.status(404).send({ message: "Could not find the channel" });
   } else {
     await fetch(`http://127.0.0.1:4000/message/?roomId=${roomId}`);
-    res.status(200).send(channel);
+    res.status(201).send(channel);
   }
 });
 
@@ -171,7 +171,7 @@ router.post("/broadcast/", jwtFilter.authorizeAdmin, async (req, res) => {
       broadcast
     );
     await fetch("http://127.0.0.1:4000/broadcast/");
-    res.send(newBroadcast);
+    res.status(201).send(newBroadcast);
   }
 });
 

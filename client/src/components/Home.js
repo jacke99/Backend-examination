@@ -28,16 +28,16 @@ const Home = () => {
 
   //Socket connection
   useEffect(() => {
-    if (ref.current === false) {
-      ref.current = true;
-      console.log(socket);
-      socket.on("new-connection", (msg) => {
-        console.log(msg);
-      });
-      socket.on("new-channel", handleGetChannels);
+    // if (ref.current === false) {
+    //   ref.current = true;
+    console.log(socket);
+    socket.on("new-connection", (msg) => {
+      console.log(msg);
+    });
+    socket.on("new-channel", handleGetChannels);
 
-      socket.on("new-message", handleNewMessage);
-    }
+    socket.on("new-message", handleNewMessage);
+    // }
   }, []);
 
   //Get JWT user info
