@@ -56,7 +56,6 @@ app.get("/message/", (req, res) => {
 });
 
 app.get("/broadcast/", (req, res) => {
-  console.log("Pinged the socket");
   clients.forEach((client) => {
     client.emit("new-broadcast", "refreshed broadcasts");
   });

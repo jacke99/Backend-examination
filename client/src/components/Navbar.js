@@ -4,11 +4,14 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   function navHome() {
-    navigate("/home");
+    navigate("/");
   }
 
   function navBroadcasts() {
     navigate("/broadcasts");
+  }
+  function navLogin() {
+    navigate("/login");
   }
 
   return (
@@ -20,6 +23,9 @@ const Navbar = () => {
         </button>
         <button className="navbar-btn" onClick={navBroadcasts}>
           Broadcasts
+        </button>
+        <button className="navbar-btn-login" onClick={navLogin}>
+          Login
         </button>
       </div>
     </nav>

@@ -160,18 +160,23 @@ router.post("/broadcast/", jwtFilter.authorizeAdmin, async (req, res) => {
   broadcast.createdBy = decoded.username;
   let time = new Date().toLocaleTimeString("sv-SE");
   let date = new Date().toLocaleDateString("sv-SE");
-  broadcast.uploadedAt = `Date: ${date} at: ${time}`;
+  broadcast.uploadedAt = `${date} at: ${time}`;
 
   if (broadcast.title == null || broadcast.title == "") {
     res.status(400).send({ error: "Missing broadcast titel" });
   } else if (broadcast.message == null || broadcast.message == "") {
     res.status(400).send({ error: "Missing broadcast message" });
   } else {
-    const newBroadcast = await fetchCollection("broadcasts").insertOne(
-      broadcast
-    );
-    await fetch("http://127.0.0.1:4000/broadcast/");
-    res.status(201).send(newBroadcast);
+    try {
+      const newBroadcast = await fetchCollection("broadcasts").insertOne(
+        broadcast
+      );
+      await fetch("http://127.0.0.1:4000/broadcast/");
+      res.status(201).send(newBroadcast);
+    } catch (err) {
+      console.log(req.ip, err.serverMessage);
+      res.status(500).send(err.clientMessage);
+    }
   }
 });
 

@@ -5,45 +5,33 @@ function authorize(request, response, next) {
   const authHeader = request.headers["authorization"];
 
   if (authHeader == undefined) {
-    response.status(400); //bad request
+    response.status(400);
     response.send("Authorization header is missing");
   } else {
     const authToken = authHeader.replace("Bearer ", "");
 
     try {
-      // försök verifera **
-      jwtUtil.verify(authToken); // may throw jwt error-to-be-caught
-      next(); // proceed to next step in express
+      jwtUtil.verify(authToken);
+      next();
     } catch (err) {
-      // **  men om det inte går...
       console.log(request.ip, err.serverMessage);
 
-      response.status(403); //forbidden
-      response.send(err.clientMessage);
+      response.status(403).send(err.clientMessage);
     }
   }
 }
 
+// Verify that each request has a valid jwt token with "ADMIN" role
 function authorizeAdmin(req, res, next) {
   const authHeader = req.headers["authorization"];
-
+  const authToken = authHeader.replace("Bearer ", "");
+  const decoded = jwtUtil.verify(authToken);
   if (authHeader == undefined) {
     res.status(400); //bad request
     res.send("Authorization header is missing");
   } else {
-    const authToken = authHeader.replace("Bearer ", "");
-    const decoded = jwtUtil.getUser(req);
     if (decoded.role == "ADMIN") {
-      try {
-        jwtUtil.verify(authToken);
-        next();
-      } catch (err) {
-        // **  men om det inte går...
-        console.log(req.ip, err.serverMessage);
-
-        res.status(403); //forbidden
-        res.send(err.clientMessage);
-      }
+      next();
     } else {
       res.status(403).send("You do not have the admin role");
     }

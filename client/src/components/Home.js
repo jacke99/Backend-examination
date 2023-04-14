@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { socket } from "../socket";
 
 const Home = () => {
-  const ref = useRef(false);
-
   const [channels, setChannels] = useState(null);
   const [refreshChannel, setRefreshChannel] = useState(null);
   const [renderChannel, setRenderChannel] = useState(null);
@@ -12,10 +10,6 @@ const Home = () => {
   const [render, setRender] = useState(true);
   const [number, setNumber] = useState(null);
   const [channelTitle, setChannelTitle] = useState("");
-
-  useEffect(() => {
-    handleGetChannels();
-  }, []);
 
   //Refresh only the channel that got a new message
   useEffect(() => {
@@ -28,8 +22,6 @@ const Home = () => {
 
   //Socket connection
   useEffect(() => {
-    // if (ref.current === false) {
-    //   ref.current = true;
     console.log(socket);
     socket.on("new-connection", (msg) => {
       console.log(msg);
@@ -37,7 +29,8 @@ const Home = () => {
     socket.on("new-channel", handleGetChannels);
 
     socket.on("new-message", handleNewMessage);
-    // }
+
+    handleGetChannels();
   }, []);
 
   //Get JWT user info
@@ -188,31 +181,32 @@ const Home = () => {
           </button>
         </div>
       )}
-
-      {render &&
-        channels &&
-        channels.map((channel, index) => {
-          return (
-            <div key={index} className="channel-container">
-              <div onClick={readChannel} value={index}>
-                <div value={index} className="channel-title">
-                  {channel.title}
+      <div className="channel-wrapper">
+        {render &&
+          channels &&
+          channels.map((channel, index) => {
+            return (
+              <div key={index} className="channel-container">
+                <div onClick={readChannel} value={index}>
+                  <div value={index} className="channel-title">
+                    {channel.title}
+                  </div>
+                  <p value={index} className="channel-created-by">
+                    Created by: {channel.createdBy}
+                  </p>
                 </div>
-                <p value={index} className="channel-created-by">
-                  Created by: {channel.createdBy}
-                </p>
+                <button
+                  className="delete-btn"
+                  value={index}
+                  onClick={deleteChannel}>
+                  Delete
+                </button>
               </div>
-              <button
-                className="delete-btn"
-                value={index}
-                onClick={deleteChannel}>
-                Delete
-              </button>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
       {!render && renderChannel && (
-        <div>
+        <div className="message-wrapper">
           <h3>{renderChannel.title}</h3>
           <button className="back-btn" onClick={goBack}>
             Back
@@ -241,7 +235,7 @@ const Home = () => {
                 );
               })}
             </div>
-            <div>
+            <div className="send-message-container">
               <input
                 onChange={handleMessage}
                 value={message}

@@ -35,18 +35,18 @@ const Broadcasts = () => {
   }
 
   return (
-    <div>
-      <h2>Broadcasts</h2>
+    <div className="home-container">
       {broadcasts &&
         broadcasts.map((broadcast, index) => {
           return (
-            <div key={index}>
-              <h3>{broadcast.title}</h3>
+            <div className="channel-container" key={index}>
+              <h3 className="channel-title">{broadcast.title}</h3>
               <p>{broadcast.message}</p>
-              <p>{broadcast.uploadedAt}</p>
+              <p className="channel-created-by">{broadcast.uploadedAt}</p>
             </div>
           );
         })}
+      <h2>Broadcasts</h2>
     </div>
   );
 };

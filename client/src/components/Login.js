@@ -50,7 +50,7 @@ function Login() {
       console.log("No auth token found");
       return false;
     } else {
-      navigate("/Home");
+      navigate("/");
     }
   }
 
@@ -84,7 +84,7 @@ function Login() {
           <button onClick={onLoginClick} className="log-in-btn">
             Log in
           </button>
-          <button onClick={onCreateAccountClick} className="home-btn">
+          <button onClick={onCreateAccountClick} className="create-account-btn">
             Create account
           </button>
         </div>
