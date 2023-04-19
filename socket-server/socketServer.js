@@ -57,7 +57,7 @@ app.get("/message/", (req, res) => {
 
 app.get("/broadcast/", (req, res) => {
   clients.forEach((client) => {
-    client.emit("new-broadcast", "refreshed broadcasts");
+    client.emit("new-broadcast", "refresh broadcasts");
   });
 
   res.send("Socket refreshed broadcasts");

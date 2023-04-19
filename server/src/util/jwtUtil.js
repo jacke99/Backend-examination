@@ -23,7 +23,7 @@ function generate(user) {
   let payloadOptions = {
     issuer: "phone-duck-inc",
     subject: "user access token",
-    // expiresIn: "15m", // 15 minutes
+    expiresIn: "15m", // 15 minutes
     // algorithm: "RS256",
   };
 

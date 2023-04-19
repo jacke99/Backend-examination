@@ -97,7 +97,6 @@ router.get("/channel/:id", jwtFilter.authorize, async (req, res) => {
     const channel = await fetchCollection("channels").findOne({
       _id: new ObjectId(req.params.id),
     });
-    console.log(channel);
     if (channel == null) {
       res.status(404).send({ error: "Could not fetch the document" });
     } else {

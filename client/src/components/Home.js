@@ -22,7 +22,6 @@ const Home = () => {
 
   //Socket connection
   useEffect(() => {
-    console.log(socket);
     socket.on("new-connection", (msg) => {
       console.log(msg);
     });
@@ -64,7 +63,6 @@ const Home = () => {
   //Refresh messages for specific channel
   async function handleNewMessage(data) {
     const authToken = sessionStorage.getItem("x-auth-token");
-    console.log(data);
 
     const MESSAGE_URL = `http://127.0.0.1:4040/ducks/api/channel/${data.id}`;
 
@@ -96,7 +94,6 @@ const Home = () => {
   async function sendMessage(event) {
     const authToken = sessionStorage.getItem("x-auth-token");
     const roomId = event.target.value;
-    console.log(roomId);
     const SEND_MSG_URL = `http://127.0.0.1:4040/ducks/api/channel/${roomId}`;
 
     const messageData = {
